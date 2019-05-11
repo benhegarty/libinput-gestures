@@ -288,6 +288,7 @@ class GESTURE:
         'Initialise this gesture at the start of motion'
         self.fingers = fingers
         self.data = [0.0, 0.0]
+        self.done = False
 
     def action(self, motion):
         'Action a motion command for this gesture'
@@ -321,6 +322,10 @@ class SWIPE(GESTURE):
 
         self.data[0] += x
         self.data[1] += y
+        if (self.data[0] > 500 or self.data[1] > 500 or self.data[0] < -500 or self.data[1] < -500 and self.done == False):
+            self.done = True
+            self.end()
+            
         return True
 
     def end(self):
@@ -570,6 +575,10 @@ for line in cmd.stdout:
 
     # Action each type of event
     if event == 'UPDATE':
+        if handler.done == True:
+            handler.begin(fingers)
+            continue
+        
         if handler:
             # Split parameters into list of clean numbers
             if not handler.update(re.split(r'[^-.\d]+', params)):
@@ -584,8 +593,9 @@ for line in cmd.stdout:
             print('Unknown gesture received: {}.'.format(gesture),
                     file=sys.stderr)
     elif event == 'END':
+        continue
         # Ignore gesture if final action is cancelled
-        if handler:
+        if handler and handler.done == False:
             if params != 'cancelled':
                 handler.end()
             handler = None
