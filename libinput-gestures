@@ -322,7 +322,7 @@ class SWIPE(GESTURE):
 
         self.data[0] += x
         self.data[1] += y
-        if (self.data[0] > 500 or self.data[1] > 500 or self.data[0] < -500 or self.data[1] < -500 and self.done == False):
+        if (self.data[0] > 300 or self.data[1] > 300 or self.data[0] < -300 or self.data[1] < -300 and self.done == False):
             self.done = True
             self.end()
             
@@ -576,7 +576,7 @@ for line in cmd.stdout:
     # Action each type of event
     if event == 'UPDATE':
         if handler.done == True:
-            handler.begin(fingers)
+            #handler.begin(fingers)
             continue
         
         if handler:
