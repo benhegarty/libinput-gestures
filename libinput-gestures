@@ -322,7 +322,7 @@ class SWIPE(GESTURE):
 
         self.data[0] += x
         self.data[1] += y
-        if (self.data[0] > 300 or self.data[1] > 300 or self.data[0] < -300 or self.data[1] < -300 and self.done == False):
+        if (self.data[0] > 100 or self.data[1] > 100 or self.data[0] < -100 or self.data[1] < -100 and self.done == False):
             self.done = True
             self.end()
             
